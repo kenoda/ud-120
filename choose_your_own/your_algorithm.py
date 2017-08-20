@@ -28,14 +28,21 @@ plt.show()
 ################################################################################
 
 
-### your code here!  name your classifier object clf if you want the 
+### your code here!  name your classifier object clf if you want the
 ### visualization code (prettyPicture) to show you the decision boundary
+from sklearn import neighbors
+from sklearn import ensemble
+clf1 = neighbors.KNeighborsClassifier()
+clf2 = ensemble.AdaBoostClassifier()
+clf3 = ensemble.RandomForestClassifier()
 
+clf1.fit(features_train, labels_train)
+# clf2.fit(features_train, labels_train)
+# clf3.fit(features_train, labels_train)
 
-
-
-
-
+print clf1.score(features_test, labels_test)
+# print clf2.score(features_test, labels_test)
+# print clf3.score(features_test, labels_test)
 
 
 try:

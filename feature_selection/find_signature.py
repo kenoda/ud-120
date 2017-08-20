@@ -14,7 +14,6 @@ word_data = pickle.load( open(words_file, "r"))
 authors = pickle.load( open(authors_file, "r") )
 
 
-
 ### test_size is the percentage of events assigned to the test set (the
 ### remainder go into training)
 ### feature matrices changed to dense representations for compatibility with
@@ -35,9 +34,28 @@ features_test  = vectorizer.transform(features_test).toarray()
 features_train = features_train[:150].toarray()
 labels_train   = labels_train[:150]
 
+print "numbers of training data:", len(features_train)
 
 
 ### your code goes here
+from sklearn import tree
+
+clf = tree.DecisionTreeClassifier()
+clf.fit(features_train, labels_train)
+
+print "Score:", clf.score(features_test,labels_test)
+
+# from sklearn.feature_selection import SelectPercentile
+# selector = SelectPercentile(score_func=f_classif, percentile=20)
+# selector.fit(features_train, labels_train)
+feature_importance = clf.feature_importances_
+print "max importances:", max(feature_importance)
+importances = [i for i in clf.feature_importances_ if i >=0.2]
+print "numbers of importances:", len(importances)
+importances_index = list(clf.feature_importances_).index(importances[0])
+print "imporetance_index:", importances_index
+print vectorizer.get_feature_names()[importances_index]
+
 
 
 

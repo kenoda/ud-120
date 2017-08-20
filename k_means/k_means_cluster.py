@@ -44,26 +44,54 @@ data_dict = pickle.load( open("../final_project/final_project_dataset.pkl", "r")
 data_dict.pop("TOTAL", 0)
 
 
+
 ### the input features we want to use 
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+# feature_3 = "total_payments"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
+import numpy as np
+f = np.array(finance_features)
+fcol1 = f[:, [1]] # To access the correct column
+print "max exercised stock optinos: ",(np.max(fcol1))
+print "min exercised stock options: ", (np.min(fcol1[fcol1>0]))
+
+fcol0 = f[:, [0]]
+print "max salary:", (np.max(fcol0))
+print "min salary:", (np.min(fcol0[fcol0>0]))
+
+#Rescaling
+from sklearn.preprocessing import MinMaxScaler
+only3 = np.array((np.min(fcol1[fcol1>0]), 1000000, np.max(fcol1)))
+scaler = MinMaxScaler()
+resacaled_exercised = scaler.fit_transform(only3)
+print "rescaled ex stock options", (resacaled_exercised[1])
+
+only3_salary = np.array((np.min(fcol0[fcol0>0]), 200000, np.max(fcol0)))
+scaler = MinMaxScaler()
+resacaled_exercised = scaler.fit_transform(only3_salary)
+print "rescaled salary", (resacaled_exercised[1])
 
 ### in the "clustering with 3 features" part of the mini-project,
 ### you'll want to change this line to 
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, the line below assumes 2 features)
 for f1, f2 in finance_features:
-    plt.scatter( f1, f2 )
+    plt.scatter( f1, f2)
 plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=2).fit(finance_features)
+pred = kmeans.predict(finance_features)
+
+
 
 
 
