@@ -36,6 +36,5 @@ feature_train, feature_test, label_train, label_test = cross_validation.train_te
 
 
 clf.fit(feature_train, label_train)
-# clf.fit(features, labels)
 acc = clf.score(feature_test, label_test)
 print acc
