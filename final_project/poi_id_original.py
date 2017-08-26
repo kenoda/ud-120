@@ -10,38 +10,13 @@ from tester import dump_classifier_and_data
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
-
-# List of features
-
-financial_features_list = ['salary', 'deferral_payments', 'total_payments', 'loan_advances', 'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 'restricted_stock', 'director_fees'] 
-
-email_features_list = ['to_messages', 'email_address', 'from_poi_to_this_person', 'from_messages', 'from_this_person_to_poi', 'shared_receipt_with_poi']
-
-poi_label = ['poi']
-
-features = poi_label + financial_features_list + email_features_list
-print "number of features:", len(features_list)
-
-# features_list = ['poi','salary'] # You will need to use more features
+features_list = ['poi','salary'] # You will need to use more features
 
 ### Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
     data_dict = pickle.load(data_file)
 
-print "number of data:", len(data_dict)
-
 ### Task 2: Remove outliers
-import matplotlib.pyplot
-import seaborn as sns
-data = featureFormat(data_dict, features)
-
-
-
-for point in data:
-    salary = point[1]
-
-
-
 ### Task 3: Create new feature(s)
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
@@ -49,11 +24,6 @@ my_dataset = data_dict
 ### Extract features and labels from dataset for local testing
 data = featureFormat(my_dataset, features_list, sort_keys = True)
 labels, features = targetFeatureSplit(data)
-
-from sklearn.linear_model import Lasso
-regression = Lasso()
-regression.fit(features, labels)
-print regression.coef_
 
 ### Task 4: Try a varity of classifiers
 ### Please name your classifier clf for easy export below.
